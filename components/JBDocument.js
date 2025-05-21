@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
 
 export function JBDDocument({ data }) {
   const now = new Date().toLocaleDateString();
+
   return (
     <Document>
       <Page size="A4" orientation="landscape" style={styles.page}>
@@ -18,26 +19,34 @@ export function JBDDocument({ data }) {
           <View style={styles.section}>
             <Text style={styles.heading}>Rig Job By Design</Text>
             <View style={styles.row}>
-              <Text>Operation: {data.operation}</Text>
-              <Text>Rig: {data.rig}</Text>
-              <Text>PIC: {data.pic}</Text>
+              <Text>Operation: {String(data?.operation ?? '')}</Text>
+              <Text>Rig: {String(data?.rig ?? '')}</Text>
+              <Text>PIC: {String(data?.pic ?? '')}</Text>
             </View>
           </View>
+
           <View style={styles.section}>
             <Text style={styles.heading}>Line of Fire - Major Hazards</Text>
             <View style={styles.box}>
-              <Text>{data.lofHazard}</Text>
+              <Text>{String(data?.lofHazard ?? '')}</Text>
             </View>
           </View>
+
           <View style={styles.section}>
             <Text style={styles.heading}>Personnel Involved</Text>
-            {data.workers.map((w, i) => (<Text key={i}>{i + 1}. {w}</Text>))}
+            {(data?.workers ?? []).map((w, i) => (
+              <Text key={i}>{i + 1}. {String(w)}</Text>
+            ))}
           </View>
+
           <View style={styles.section}>
             <Text style={styles.heading}>Task Steps</Text>
-            {data.tasks.map((t, i) => (<Text key={i}>• {t.step} (By: {t.person})</Text>))}
+            {(data?.tasks ?? []).map((t, i) => (
+              <Text key={i}>• {String(t.step)} (By: {String(t.person)})</Text>
+            ))}
           </View>
         </View>
+
         <View style={styles.footer}>
           <Text>PDF generated on {now}</Text>
         </View>
